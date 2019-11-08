@@ -1,0 +1,48 @@
+默认导包 {
+    java {
+        java.lang.*             # 默认只导入一个包
+    }
+    groovy {
+        # 默认导入以下所有包
+        java.io.*
+        java.lang.*
+        java.math.BigDecimal
+        java.math.BigInteger
+        java.net.*
+        java.util.*
+        groovy.lang.*
+        groovy.util.*
+    }
+}
+
+
+方法绑定 {
+    
+    public class OverloadMethod {
+        public static void func(String str){ };     # overload1
+        public static void func(Object obj){ };     # overload2
+        
+        public static void main(){
+            Object obj = new String("qwer");
+            
+            # 该行代码在 java 中会调用 overload2 方法，因为java是编译时绑定，而编译时 obj 被声明为 Object 对象
+            # 在 groovy 中会调用 overload1 方法，因为 groovy 是运行时绑定，运行时，obj 对象是个 String 对象所以调用 overload1
+            OverloadMethod.func(obj);   
+        }
+    }
+}
+
+数组初始化 {
+    int[] ints = {1, 2, 3};     # java 中数组初始化
+    int[] ints = [1, 2, 3];     # groovy 中数组初始化，因为 groovy 中 {} 标记在 闭包中使用了
+}
+
+字段访问权限 {
+    public class Person {
+        String name             # groovy 中这么定义相当于 java 中定义一个 private String name，然后生成 getter setter
+        @PackageScope String name   # groovy 中定义一个包权限的字段
+    }    
+}
+
+
+
