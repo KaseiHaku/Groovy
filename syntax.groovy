@@ -73,6 +73,12 @@ res.call(3,2)
 /******************************************************** Method ****************************************************/
 
 /******************************************************** Script ****************************************************/
+/** 如果一个文件中，有任何代码不在 class 类中，那么这个文件就是一个 script，
+script 会被编译成一个类，假设类名为 Suppose，这个类会继承 groovy.lang.Script 
+所有脚本都会被 复制到一个 run 方法中，
+所有文件中定义的方法，都会被设置为 Suppose 类的方法
+且 Suppose 类中有一个 main 方法，可以执行，相当于 java 中的 public static void main(String[]) 方法
+*/
 
 /******************************************************** Programming Style ***************************************/
 class ProgrammingStyle {
@@ -82,7 +88,8 @@ class ProgrammingStyle {
     def age
     
     /** Defualt method access modifier is public: 类方法默认访问修饰符为 public */
-    def func(param1, String param2, Class param3){
+    /** Defualt method parameter: 默认方法参数 */
+    def func(param1, String param2 = 'default', Class param3){
         /** Optional return keyword: 方法体中最后一个表达式就是方法的返回值，不需要写 return 关键字 */
         'return value'
     }
@@ -94,7 +101,7 @@ println 'Programming Style Demo Start'
 def ps1 = new ProgrammingStyle()
 def ps2 = new ProgrammingStyle(name: "Obelix", age: 23)         
 
-/** Omitting parentheses: 顶层表达式方法调用可以省略 括号 */
+/** Omitting parentheses: 顶层表达式方法调用可以省略括号，但是无参方法调用必须带括号 */
 /** public class Class: 类名可以直接当作标识符使用，作用相当于 类名.class */
 ps1.func 1, 'p2', Map
 
@@ -118,6 +125,9 @@ println ps1?.name
 /** ps1 为 null, void, =0, ps1.length=0 都会判定为 false */
 assert ps1
 def result = ps?:"Defualt Value"
+
+def range1 = 1...5      // 1 到 5 包括 5
+def range2 = 1...>5     // 1 到 5 不包括 5
 
 println 'Programming Style Demo End'
 
