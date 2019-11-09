@@ -44,5 +44,54 @@
     }    
 }
 
+资源管理 {
+    groovy 中不需要手动释放资源，而是依赖与 closure，
+    这部分没理解
+}
+
+innerClass {
+    其中 非静态内部类 实例的创建方法不同：    
+    java： new Outer().new Inner()
+    groovy: new Inner(new Outer)
+}
+
+
+
+函数式编程 {
+    java 中使用 lambda 表达式，可以看作是一个匿名内部类
+    groovy 中使用 closure 来代表一个函数    
+}
+
+字符串 {
+    双引号字符串会被当作 GString 而不是 java 中的 String，如果 java 中的 String 中包含 $ 字符，那编译器会认为是 GString ，会导致编译出错，或达不到预期
+    
+}
+
+
+primary type {
+    
+    int i
+    m(i)
+    void m(long l) { println "in m(long)"}          # m1
+    void m(Integer i) { println "in m(Integer)"}    # m2
+    
+    java 在绑定函数时会使用 扩展 方式匹配，而 groovy 则使用 包装类型匹配，
+    java 会自动扩展 int 类型为 long，所以调用 m1，groovy 会自动装箱，所以调用 m2
+}
+
+== {
+    groovy 中 obj1 == obj2  
+    两个对象实现 Comparable 接口时，相当于 obj1.compareTo(obj2)==0; 
+    如果没有实现 Comparable 接口， 那么相当于 obj1.equals(obj2);
+    如果想要比较两个实例是否是同一实例，使用 obj1.is(obj2)
+}
+
+primary type 隐式转换方式不同 {
+    太多不列举，查 groovy 官网
+}
+
+extra keyword {
+    as, def, in, trait
+}
 
 
