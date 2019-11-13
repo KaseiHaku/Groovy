@@ -66,11 +66,48 @@ println map.["string key"]
 println "${map.name} is ${map.22} years old"
 
 /******************************************************** Closure ****************************************************/
-/** 一个 Closure 是一个 groovy.lang.Closure 的实例  */
-{ [closureParameters -> ] statements }
-def res = { a, b=2 -> a-b}      // b=2 表示 b 默认值为 2
-res(3,2)
-res.call(3,2)
+/** 一个 Closure 是一个 groovy.lang.Closure 的实例  
+每一个 Closure 都有一个隐式参数 it，跟 java 里面的 this 指针一样，都是第一个参数
+Closure<String> 表示 Closure 的返回值是一个 String 实例
+*/
+Closure<String>  aClosure = { def it, String x, int y=4  ->  
+    x = x.trim()
+    println "x=${x};y=${y}"
+    x
+}
+aClosure(3,2)           // 调用 Closure 方式 1
+aClosure.call(3,2)      // 调用 Closure 方式 2
+
+def closure2 = { println "$it"}  // 默认会有一个 it 参数
+def closure3 = { -> println '无参 closure '}   // 定义无参闭包必须使用箭头
+
+/** Closure delegate strategy 
+闭包中包含以下 3 个概念：
+    this:       对应闭包定义代码所在类的实例，无论当前闭包A是否定义在另一个闭包B内
+    owner:      对应闭包定义代码所在的直接外围对象，如果闭包A定义在闭包B内，闭包B又定义在类C内，那么 owner 对应的时闭包B的实例
+    delegate:   对应闭包调用时，手动设置的执行实例，默认设置为 owner
+                当一个变量名 aa 没有在闭包域内声明，那么默认使用 delegate.aa 调用
+*/
+class ClosureDelegateStrategyDemo {
+    void run(){
+        def closureB = {
+            this                    // 永远指向 ClosureDelegateStrategyDemo 的实例
+            owner                   // 因为闭包嵌套，所以 owner 也指向 ClosureDelegateStrategyDemo 的实例
+            def closureA = {
+                this                    // 永远指向 ClosureDelegateStrategyDemo 的实例
+                owner                   // 因为有闭包嵌套，所以 owner 指向 closureB 指向的实例
+                delegate
+            }
+        }
+    }
+}
+
+/** 闭包 柯里化（Curry）：将多个参数的方法，拆分成一个参数的多个方法 */
+
+
+
+
+
 
 /******************************************************** Method ****************************************************/
 
