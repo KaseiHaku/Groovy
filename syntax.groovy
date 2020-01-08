@@ -151,17 +151,22 @@ class MethodSyntax {
 
     void method1(){}
     void method2(Map<String, ?> map, Integer number, String str='default'){}
+    void method3(String str, Closure closure){}
 
 
 }
 /** TODO 方法调用
- * Omitting parentheses: 顶层表达式方法调用可以省略括号，但是无参方法调用必须带括号
- * public class Class: 类名可以直接当作标识符使用，作用相当于 类名.class
+ * 1. 当 Map 类型为方法的第一个参数时，可以省略 Map 类型的 []
+ * 2. 当 Closure 类型为方法的最后一个参数时，可以将 Closure 从 () 提取出来，并接到 () 后面，如果 Closure 是唯一一个参数，那么 () 也可以省略
+ * 3.  顶层表达式(main 方法所在类)，方法调用可以省略括号，但是无参方法调用必须带括号
  * */
 new MethodSyntax().method2([key1: 'a', key2: 2], 3)    // 严格按照遵循参数格式及顺序
 new MethodSyntax().method2(key1: 'a', key2: 2, 3)      // 省略 Map 参数的中括号
 new MethodSyntax().method2(key1: 'a', 3, key2: 2)      // 调换参数顺序，注意:调换只有在 Map 类型的参数是方法的第一个参数时有效
 new MethodSyntax().method2 3, key1: 'a', key2: 2       // 省略方法调用的小括号
+
+new MethodSyntax().method3('str', { 1+2 })             // 严格按照遵循参数格式及顺序
+new MethodSyntax().method3('str'){ 1+2 }               // 将最后一个 Closure 类型的参数提取并接到 () 后面
 
 
 // TODO 函数指针
@@ -222,6 +227,7 @@ class ClosureDelegateStrategyDemo {
 
 
 /******************************************************** Class ***************************************/
+// public class GroovyClass: 类名可以直接当作标识符使用，作用相当于 类名.class
 class GroovyClass{
     @PackageScope String name   // 定义包访问权限
     def func(param1, String param2 = 'default', Class param3){
