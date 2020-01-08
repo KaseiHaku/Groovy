@@ -260,5 +260,60 @@ def ps3 = new GroovyClass().tap {
  */
 
 
+/******************************************************** MOP(Meta Oriented Programming) ****************************************************/
+class MopDemo implements GroovyInterceptable {
+    def hello() {
+        'invoke hello directly'
+    }
 
+    // 如果我们想让一个方法来管理一个类所有方法的调用，那么我们必须使用“invokeMethod”方法；
+    // def invokeMethod(String name,Object args) {
+    //     return "invokeMethod: unknown method $name(${args.join(',')})"
+    // }
+
+    // 如果我们只想通过一个方法来管理一个类的所有“missing method”，即不能被分派出去的方法，那么使用“methodMissing”方法是比较有效的
+    def methodMissing(String name,args){
+        return "methodMissing: unknown method $name(${args.join(',')})"
+    } 
+}
+
+def it = new MopDemo()
+println it.hello()
+println it.foo("mark",19)
+
+/** 演示 Gradle task taskName{} 为什么可以不用引号括起来：start *************************************/
+@BaseScript(MyDSL) 
+import groovy.transform.BaseScript 
+
+// and our base DSL class 
+abstract class MyDSL extends Script { 
+    def methodMissing(String name, args) { 
+     return new Person(name, args[0]) 
+    } 
+
+    def person(Person p) { 
+     p.method(p) 
+    } 
+} 
+
+// Something to deal with people 
+class Person { 
+    String name 
+    Closure method 
+    String toString() { "$name" } 
+    Person(String name, Closure cl) { 
+     this.name = name 
+     this.method = cl 
+     this.method.delegate = this 
+    } 
+    def greet(String greeting) { 
+     println "$greeting $name" 
+    } 
+} 
+
+// Then our actual script 
+person tim { 
+    greet 'Hello'     // 该行脚本会打印 Hello tim 到 stdout
+} 
+/** 演示 Gradle task taskName{} 为什么可以不用引号括起来：end *************************************/
 
