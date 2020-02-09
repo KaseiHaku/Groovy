@@ -168,6 +168,9 @@ new MethodSyntax().method2 3, key1: 'a', key2: 2       // 省略方法调用的�
 new MethodSyntax().method3('str', { 1+2 })             // 严格按照遵循参数格式及顺序
 new MethodSyntax().method3('str'){ 1+2 }               // 将最后一个 Closure 类型的参数提取并接到 () 后面
 
+new MethodSyntax().method3({ 1+2 })                    // 严格按照遵循参数格式及顺序
+new MethodSyntax().method3 { 1+2 }                     // Closure 是唯一一个参数，那么可以省略 ()
+
 
 // TODO 函数指针
 def funcPointer = new MethodSyntax().&method1   // 相当于 C 语言的函数指针
