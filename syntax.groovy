@@ -2,7 +2,7 @@
 
 
 import groovy.lang.Closure
-import java.sql.Date as SQLDate         // as 关键字用于取别名
+import java.sql.Date as SQLDate     // as 关键字用于取别名
 
 
 
