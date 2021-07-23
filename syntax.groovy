@@ -23,12 +23,12 @@ def str5 = /qwe $str0 \/ r/              // 主要用于正则表达式，这样
 def str6 = $/qwe $str0 $$ r/$
 def str7 = """
            |<root>
-           |    <level>3</level>
+           |    <level>3</level>\
            |</root>
            """
-def str8 = '''                              // Escape character = '\'
+def str8 = '''\                              // Escape character = '\'
            |<root>
-           |    <level>3</level>
+           |    <level>3</level>\
            |</root>
            '''
 
