@@ -26,6 +26,11 @@ def str7 = """
            |    <level>3</level>
            |</root>
            """
+def str8 = '''                              // Escape character = '\'
+           |<root>
+           |    <level>3</level>
+           |</root>
+           '''
 
 BigInteger bi =  1_000_006g
 BigDecimal bd =  3.456g
